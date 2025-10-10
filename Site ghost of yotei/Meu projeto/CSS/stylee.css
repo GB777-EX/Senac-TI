@@ -72,4 +72,13 @@ color: gold;}
 
 
 
+ } 
+ #gabriel{ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: center;
+    color: rgb(255, 254, 251);
+    background-color: rgb(0, 0, 0);
+    display: inline; width: 300px;
+    
+
+
  }
