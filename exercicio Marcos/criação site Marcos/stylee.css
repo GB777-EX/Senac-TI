@@ -1,4 +1,72 @@
-*{
+* {
     margin: 0px;
     padding: 0px;
+}
+
+header {
+    width: 90%;
+    margin: auto;
+    background-color: yellow;
+}
+
+.menu {
+    display: inline-block;
+    width: 20%;
+
+}
+
+.cadastro {
+    display: inline-block;
+    width: 22%;
+}
+
+#espaco {
+    padding: 5px;
+    width: 50px;
+
+}
+
+img {
+    width: 120px;
+    border-radius: 50%;
+    margin: 10px;
+    background-color: black;
+}
+
+
+nav {
+    display: inline-block;
+    padding: 5px;
+    width: 50%;
+    margin: auto;
+    background-color: aqua;
+    text-align: center;
+}
+
+p {
+    display: inline-block;
+    padding: 2px;
+    width: 20%;
+    margin: 4px;
+    background-color: blueviolet;
+    text-align: center;
+}
+main{display:inline-block;
+margin: auto;
+padding: 20px;
+width:90%;
+background-color: blue;}
+
+section{ display: inline-block;
+background-color: rgb(173, 255, 20);
+padding: 15px;
+width: 120px;
+text-align: center;
+border-radius: 10px;}
+
+.espaco_section{
+    margin: 60px;
+    padding: 10px;
+    border-radius: 20px;
+    
 }
