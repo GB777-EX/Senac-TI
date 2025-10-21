@@ -36,11 +36,20 @@ img {
 
 nav {
     display: inline-block;
-    padding: 5px;
+    padding: 10px;
     width: 50%;
     margin: auto;
     background-color: aqua;
     text-align: center;
+} 
+
+
+.nav section {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    background-color: orange;
+    border-radius: 10px;
 }
 
 p {
@@ -52,20 +61,21 @@ p {
     text-align: center;
 }
 main{display:inline-block;
-margin: auto;
+margin: 10px;
 padding: 20px;
 width:90%;
 background-color: blue;}
 
 section{ display: inline-block;
 background-color: rgb(173, 255, 20);
-padding: 15px;
-width: 120px;
+padding: 20px;
+width: 130px;
+margin: 15px;
 text-align: center;
 border-radius: 10px;}
 
 .espaco_section{
-    margin: 60px;
+    margin: 50px;
     padding: 10px;
     border-radius: 20px;
     
