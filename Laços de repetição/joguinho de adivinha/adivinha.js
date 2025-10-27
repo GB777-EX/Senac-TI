@@ -1,66 +1,108 @@
+// Jogo usando apenas: do/while, switch, case, prompt e alert
 
-//declaração de variáveis
-let nivelFacil = parseInt(Math.floor((Math.random() * 10)));
-let nivelMedio = parseInt(Math.floor((Math.random() * 100)));
-let nivelDificil = parseInt(Math.floor((Math.random() * 1000)));
-let tentativaFacil = 3;
-let tentativaMedia = 10;
-let tentativaDificil = 20;
-let acertou = false;
-let chuteFacil;
-let chuteMedio;
-let chuteDificil;
-//Entrada de dados
+let jogarNovamente;
 
-let nivel = prompt("Escolha o nível de dificuldade: (1 - Fácil (0 a 10), 2 - Médio (0 a 100), 3 - Difícil (0 a 1000))");
+do {
+  // gera os números secretos toda vez que o jogo inicia
+  let nivelFacil = Math.floor(Math.random() * 10);   // 0..9
+  let nivelMedio = Math.floor(Math.random() * 100);  // 0..99
+  let nivelDificil = Math.floor(Math.random() * 1000); // 0..999
 
-switch (nivel) {
-    case "1":
-        while (tentativaFacil > 0 && acertou === false) {
-            chuteFacil = parseInt(prompt("Você tem " + tentativaFacil + " tentativas. Qual o seu chute?"));
-            if (chuteFacil === nivelFacil) {
-                alert("Parabéns! Você acertou!");
-                acertou = true;
-            } else {
-                alert("Errou! Tente novamente.");
-                tentativaFacil--;
-            }
+  let nivel = prompt("Escolha o nível de dificuldade: (1 - Fácil (0 a 9), 2 - Médio (0 a 99), 3 - Difícil (0 a 999))");
+  if (!nivel) { // cancelou
+    alert("Jogo cancelado.");
+    break;
+  }
+
+  switch (nivel) {
+    case "1": {
+      let tentativas = 3;
+      let acertou = false;
+      while (tentativas > 0 && !acertou) {
+        let chute = parseInt(prompt("Você tem " + tentativas + " tentativas. Qual o seu chute?"), 10);
+        if (Number.isNaN(chute)) {
+          alert("Chute inválido. Insira um número.");
+          continue;
         }
-        if (acertou === false) {
-            alert(`Suas tentativas acabaram! O número era ${nivelFacil}`);
+        if (chute === nivelFacil) {
+          alert("Parabéns! Você acertou!");
+          acertou = true;
+        } else {
+          tentativas--;
+          if (chute < nivelFacil) {
+            alert("O valor secreto é maior que " + chute + ". Restam " + tentativas + " tentativas.");
+          } else {
+            alert("O valor secreto é menor que " + chute + ". Restam " + tentativas + " tentativas.");
+          }
         }
-        break;
-    case "2":
-        while (tentativaMedia > 0 && acertou === false) {
-            chuteMedio = parseInt(prompt(`Você tem ${tentativaMedia} tentativas. Qual o seu chute?`));
-            if (chuteMedio === nivelMedio) {
-                alert("Parabéns! Você acertou!");
-                acertou = true;
-            } else {
-                alert("Errou! Tente novamente.");
-                tentativaMedia--;
-            }       
+      }
+      if (!acertou) alert("Suas tentativas acabaram! O número era " + nivelFacil);
+      break;
+    }
+
+    case "2": {
+      let tentativas = 10;
+      let acertou = false;
+      while (tentativas > 0 && !acertou) {
+        let chute = parseInt(prompt("Você tem " + tentativas + " tentativas. Qual o seu chute?"), 10);
+        if (Number.isNaN(chute)) {
+          alert("Chute inválido. Insira um número.");
+          continue;
         }
-        if (acertou === false) {
-            alert(`Suas tentativas acabaram! O número era ${nivelMedio}`);
+        if (chute === nivelMedio) {
+          alert("Parabéns! Você acertou!");
+          acertou = true;
+        } else {
+          tentativas--;
+          if (chute < nivelMedio) {
+            alert("O valor secreto é maior que " + chute + ". Restam " + tentativas + " tentativas.");
+          } else {
+            alert("O valor secreto é menor que " + chute + ". Restam " + tentativas + " tentativas.");
+          }
         }
-        break;
-    case "3":
-        while (tentativaDificil > 0 && acertou === false) {
-            chuteDificil = parseInt(prompt(`Você tem ${tentativaDificil} tentativas. Qual o seu chute?`));
-            if (chuteDificil === nivelDificil) {
-                alert("Parabéns! Você acertou!");
-                acertou = true;
-            } else {
-                alert("Errou! Tente novamente.");
-                tentativaDificil--;
-            }
+      }
+      if (!acertou) alert("Suas tentativas acabaram! O número era " + nivelMedio);
+      break;
+    }
+
+    case "3": {
+      let tentativas = 20;
+      let acertou = false;
+      while (tentativas > 0 && !acertou) {
+        let chute = parseInt(prompt("Você tem " + tentativas + " tentativas. Qual o seu chute?"), 10);
+        if (Number.isNaN(chute)) {
+          alert("Chute inválido. Insira um número.");
+          continue;
         }
-        if (acertou === false) {
-            alert(`Suas tentativas acabaram! O número era ${nivelDificil}`);
+        if (chute === nivelDificil) {
+          alert("Parabéns! Você acertou!");
+          acertou = true;
+        } else {
+          tentativas--;
+          if (chute < nivelDificil) {
+            alert("O valor secreto é maior que " + chute + ". Restam " + tentativas + " tentativas.");
+          } else {
+            alert("O valor secreto é menor que " + chute + ". Restam " + tentativas + " tentativas.");
+          }
         }
-        break;
+      }
+      if (!acertou) alert("Suas tentativas acabaram! O número era " + nivelDificil);
+      break;
+    }
+
     default:
-        alert("Nível inválido! Por favor, escolha 1, 2 ou 3.");
-}
+      alert("Nível inválido! Por favor, escolha 1, 2 ou 3.");
+  }
 
+  // pergunta usando prompt (sem confirm). Aceita 's' ou 'sim' (minúsculo/maiúsculo).
+  let resposta = prompt("Quer jogar de novo, lindão? (s/n)");
+  if (!resposta) {
+    jogarNovamente = false; // cancelou -> sai
+  } else {
+    resposta = resposta.trim().toLowerCase();
+    jogarNovamente = (resposta === 's' || resposta === 'sim');
+  }
+
+} while (jogarNovamente);
+
+alert("Obrigado por jogar!");
