@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#container{
+    position: absolute  ;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    width: 200px;
+    height: 450px;   
+    background-color: rgb(255, 0, 0);
+}
+#tela{
+    position: relative;
+    left: 40%;
+    top: 40%;
+    transform: translate(-53%, -45%); 
+    margin: 25px;
+    padding: 15px;
+    background-color: rgb(255, 255, 255);
+    width: 150px;
+    height: 340px;
+    border-radius: 10px;
+}
+#apps{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 60px;
+    background-color: aqua;
+    
+}
+img{
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+    border-radius: 50%;
+}
+
