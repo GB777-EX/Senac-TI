@@ -14,7 +14,7 @@
             console.log("click2")
         }// função acao
 
-        console.log(document.getElementById("name"))
+      
 
         // Eventos de mouse
         // onclick= clique simples
@@ -54,8 +54,15 @@
 <body onscroll="acao()">
     <div onmouseout="acao()" onclick="acao2()" id="quadrado"></div>
     <label>Nome de Usuario</label>
-    <input id="name"> </input>
+    <input type="text" id="name" placeholder="Digite seu nome" class="Formulario" name="name_user">
 
 </body>
+<script>  console.log(document.getElementById('name'))
+        console.log(document.getElementsByTagName('input'))
+        console.log(document.getElementsByClassName('Formulario'))
+        console.log(document.getElementsByName('name_user'))
+        
+        
+        </script>
 
 </html>
