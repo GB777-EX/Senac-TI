@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eventos</title>
+    <script>
+        function acao(a, b) {
+            console.log("click")
+
+        }
+        function acao2() {
+            console.log("click2")
+        }// função acao
+
+        console.log(document.getElementById("name"))
+
+        // Eventos de mouse
+        // onclick= clique simples
+        // ondblclick= clique duplo
+        // onmouseover= passar o mouse por cima
+        // onmouseout= tirar o mouse de cima
+        // onmouseup= soltar o botão do mouse
+        // onmousedown= pressionar o botão do mouse
+
+        // Teclado
+
+        // onkeydown= pressionar a tecla
+        // onkeyup= soltar a tecla
+        // onkeypress= tecla pressionada (apenas teclas com caracteres)
+        // onfocus= quando o campo recebe foco(quando clica no campo)
+        // onblur= quando o campo perde o foco(quando clica fora do campo)
+        // oninput= quando o valor do campo é alterado
+        // onchange= quando o valor do campo é alterado e sai do campo
+
+        // janela
+
+        // onresize= redimensionar a janela quando alterar o tamanho da janela do navegador
+        // onscroll= quando a barra de rolagem do mouse for usada
+    </script>
+
+    <style type="text/css">
+        #quadrado {
+            width: 150px;
+            height: 150px;
+            background-color: #ccc;
+
+        }
+    </style>
+
+</head>
+
+<body onscroll="acao()">
+    <div onmouseout="acao()" onclick="acao2()" id="quadrado"></div>
+    <label>Nome de Usuario</label>
+    <input id="name"> </input>
+
+</body>
+
+</html>
