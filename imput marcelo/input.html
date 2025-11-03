@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionando elementos</title>
+</head>
+<style>
+    #Quadrado {
+        border: solid 1px black;
+        width: 150px;
+        height: 150px;
+        background-color: gray;
+    }
+    .Quadrado1 {
+        border: solid 1px black;
+        width: 150px;
+        height: 150px;
+        background-color: aqua;
+        }
+        .Quadrado2 {
+        border: solid 1px rgb(255, 0, 0);
+        width: 150px;
+        height: 150px;
+    background-color: blue;}
+        
+</style>
+<script>
+    function DistribuirCaracter() {
+        var caracter = document.getElementById('entrada').value;
+
+        document.getElementById('entrada').value = null;
+        switch (caracter) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                document.getElementById('numeros').value += caracter;
+
+                break;
+
+            default:
+                document.getElementById('letras').value += caracter;
+
+
+        }
+    }
+    function alterarEstilo(Corfundo) {
+        document.getElementById('Quadrado').style.backgroundColor = Corfundo;
+    }
+   
+
+</script>
+
+<body>
+    <h1>Separando elementos</h1>
+    <input type="text" placeholder="digite um caractere aqui" id="entrada" onkeyup="DistribuirCaracter()">
+    <br>
+    <hr>
+    <br>
+    <span>Letras:</span>
+    <input type="text" disabled="disabled" id="letras">
+    &nbsp &nbsp
+    <span>Números:</span>
+    <input type="text" disabled="disabled" id="numeros">
+    
+    <hr>
+    <h1>Manipulando estilos</h1>
+    <br> <br>   
+    <button type="button" onclick="alterarEstilo('#ff0000')">Vermelho</button>
+    <button type="button" onclick="alterarEstilo('#00ff00')">Verde</button>
+    <button type="button" onclick="alterarEstilo('#0000ff')">Azul</button>
+    <br> <br>
+    <div id="Quadrado"></div>
+
+    <hr>
+
+<h1>Manipulando classes</h1>
+<br><br>
+<div></div>
+    <div class="Quadrado1" id="Quadrado2"></div>
+
+<button type="button" onclick="TrocarClasses()">Trocar Classes</button>
+
+<script>
+    function TrocarClasses(){document.getElementById('Quadrado2').className = 'Quadrado2';}
+</script>
+    </body>
+
+</html>

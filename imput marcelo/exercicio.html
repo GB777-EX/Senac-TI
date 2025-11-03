@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>terreno</title>
+
+    <!--desenvolver um site onde o usuario digite as medidas do terreno e qual tipo de terreno e o site construa o
+    desenho.
+    Tipo: asfalto - cinza
+    gramado - Verde
+    terra - marrom-->
+</head>
+
+<body>
+    <script>
+        alert("Bem vindo ao construtor de terrenos!");
+        largura = prompt("Digite a largura do terreno em pixels:");
+        comprimento = prompt("Digite o comprimento do terreno em pixels:");
+        tipo = prompt("Digite o tipo de terreno (asfalto, gramado, terra):");
+
+        function DesenharTerreno() {
+            var largura = document.getElementById('largura').value;
+            var comprimento = document.getElementById('comprimento').value;
+            var tipo = document.getElementById('tipo').value;
+
+            var terreno = document.getElementById('terreno');
+            terreno.style.width = largura + 'px';
+            terreno.style.height = comprimento + 'px';
+
+            switch (tipo) {
+                case 'asfalto':
+                    terreno.style.backgroundColor = 'gray';
+                    break;
+                case 'gramado':
+                    terreno.style.backgroundColor = 'green';
+                    break;
+                case 'terra':
+                    terreno.style.backgroundColor = 'brown';
+                    break;
+                default:
+                    terreno.style.backgroundColor = 'white';
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
