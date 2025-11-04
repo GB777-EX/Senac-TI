@@ -25,11 +25,8 @@
     border-radius: 10px;
 }
 #apps{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    flex-wrap: wrap;
+    position: absolute;
+    right: 0%;
     margin-top: 10px;
     width: 60px;
     background-color: aqua;
@@ -38,7 +35,15 @@
 img{
     height: 40px;
     width: 40px;
-    margin: 5px;
+    margin: 6px;
     border-radius: 50%;
 }
+#facebook{
+    height: 40px;
+    width: 40px;
+    margin: 6px;
+    border-radius: 55%;
+    border: 30%;
+}
+
 
