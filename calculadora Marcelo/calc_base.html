@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Base</title>
+</head>
+<body>
+
+    <div class="container">
+      <div class="calculadora">
+
+            <input type="text" id="resultado" disabled="disabled"/>
+            
+            <div>
+              <butto onclick="calcular('acao','c')" type="button">C</button>
+              <butto onclick="calcular('acao','/')" type="button">/</button>
+            </div>
+
+            <div>
+              <butto onclick="calcular('valor',7)" type="button">7</button>
+              <butto onclick="calcular('valor',8)" type="button">8</button>
+              <butto onclick="calcular('valor',9)" type="button">9</button>
+              <butto onclick="calcular('acao','*')" type="button">X</button>
+            </div>
+
+            <div>
+              <button onclick="calcular('valor',4)" type="button">4</button>
+              <button onclick="calcular('valor',5)" type="button">5</button>
+              <button onclick="calcular('valor',6)" type="button">6</button>
+              <button onclick="calcular('acao','+') " type="button">+</button>
+            </div>
+
+            <div>
+              <button onclick="calcular('valor',1)" type="button">1</button>
+              <button onclick="calcular('valor',2)" type="button">2</button>
+              <button onclick="calcular('valor',3)" type="button">3</button>
+              <button onclick="calcular('acao','-')" type="button">-</button>
+            </div>
+
+            <div>
+              <button onclick="calcular('valor',0)" type="button">0</button>
+              <button onclick="calcular('acao',',')" type="button">,</button>
+              <button onclick="calcular('acao','=')" type="button">=</button>
+            </div>
+        </div>  
+           
+           
+    </div> 
+    <script>
+      function calcular(Tipo,valor) {
+        if(tipo === 'valor'){
+          document.getElementById('resultado').value = valor;
+        }else if(Tipo ==='acao'){
+          if(valor=== 'c'){
+            document.getElementById('resultado').value = '';
+          }
+          if (valor === '+'|| valor === '-'|| valor=== '*'|| valor === '.') {
+            document.getElementById('resultado').value += valor;
+            
+          }if(valor=== '='){let Valor_final = eval (document.getElementById('resultado').value)
+          document.getElementById('resultado').value += valor;
+          }
+        }
+        
+      }
+    </script>
+</body>
+</html>
