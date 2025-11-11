@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Fluidez e Performance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .metric-label {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
+
+        .metric.warning .metric-value {
+            color: #f57c00;
+        }
+
+        .metric.critical .metric-value {
+            color: #d32f2f;
+        }
+
+        .test-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .test-animation {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            margin: 20px auto;
+            animation: testAnimation 2s ease-out infinite;
+        }
+
+        @keyframes testAnimation {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .results {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .results-text {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s ease infinite;
+        }
+
+        .status-indicator.good {
+            background: #4caf50;
+        }
+
+        .status-indicator.warning {
+            background: #f57c00;
+            animation: pulseWarning 1s ease infinite;
+        }
+
+        .status-indicator.critical {
+            background: #d32f2f;
+            animation: pulseCritical 0.5s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulseWarning {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes pulseCritical {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Teste de Performance</h1>
+        <p class="subtitle">Monitore a fluidez das animações em tempo real</p>
+
+        <div class="info-box">
+            💡 Abra o DevTools (F12) → Performance tab para medições precisas
+        </div>
+
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-label">FPS Atual</div>
+                <div class="metric-value"><span class="status-indicator good"></span><span id="fps">60</span></div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Tempo de Frame</div>
+                <div class="metric-value" id="frameTime">16.67ms</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Queda Máxima</div>
+                <div class="metric-value" id="minFps">60</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">Status</div>
+                <div class="metric-value" id="status">✅ Excelente</div>
+            </div>
+        </div>
+
+        <div class="test-buttons">
+            <button class="btn-primary" onclick="startFpsMonitor()">▶️ Iniciar Monitoramento</button>
+            <button class="btn-secondary" onclick="stopFpsMonitor()">⏹️ Parar Monitoramento</button>
+        </div>
+
+        <div class="test-animation"></div>
+
+        <div class="results" id="results">
+            <div class="results-title">📊 Análise de Performance</div>
+            <div class="results-text" id="resultsText"></div>
+        </div>
+
+        <div class="test-buttons">
+            <button class="btn-secondary" onclick="testAnimations()">🎨 Testar Animações</button>
+            <button class="btn-secondary" onclick="testForms()">📝 Testar Formulários</button>
+            <button class="btn-secondary" onclick="generateReport()">📋 Gerar Relatório</button>
+        </div>
+    </div>
+
+    <script>
+        let frameCount = 0;
+        let lastTime = performance.now();
+        let fps = 60;
+        let minFps = 60;
+        let isMonitoring = false;
+        let fpsHistory = [];
+
+        function calculateFps(currentTime) {
+            frameCount++;
+            const deltaTime = currentTime - lastTime;
+
+            if (deltaTime >= 1000) {
+                fps = Math.round((frameCount * 1000) / deltaTime);
+                fpsHistory.push(fps);
+                
+                // Manter histórico dos últimos 60 frames
+                if (fpsHistory.length > 60) {
+                    fpsHistory.shift();
+                }
+
+                minFps = Math.min(...fpsHistory);
+
+                updateMetrics();
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+
+            if (isMonitoring) {
+                requestAnimationFrame(calculateFps);
+            }
+        }
+
+        function updateMetrics() {
+            const fpsElement = document.getElementById('fps');
+            const frameTimeElement = document.getElementById('frameTime');
+            const minFpsElement = document.getElementById('minFps');
+            const statusElement = document.getElementById('status');
+
+            fpsElement.textContent = fps;
+            frameTimeElement.textContent = (1000 / fps).toFixed(2) + 'ms';
+            minFpsElement.textContent = minFps;
+
+            const statusIndicator = fpsElement.parentElement.querySelector('.status-indicator');
+            let statusText = '';
+
+            if (fps >= 55) {
+                statusText = '✅ Excelente';
+                statusIndicator.className = 'status-indicator good';
+            } else if (fps >= 45) {
+                statusText = '⚠️ Bom';
+                statusIndicator.className = 'status-indicator warning';
+            } else {
+                statusText = '❌ Crítico';
+                statusIndicator.className = 'status-indicator critical';
+            }
+
+            statusElement.textContent = statusText;
+            statusElement.parentElement.className = 'metric' + (fps >= 55 ? '' : fps >= 45 ? ' warning' : ' critical');
+        }
+
+        function startFpsMonitor() {
+            isMonitoring = true;
+            frameCount = 0;
+            fpsHistory = [];
+            minFps = 60;
+            lastTime = performance.now();
+            requestAnimationFrame(calculateFps);
+            alert('Monitoramento iniciado! Interaja com a página por 10 segundos...');
+        }
+
+        function stopFpsMonitor() {
+            isMonitoring = false;
+            showResults();
+        }
+
+        function showResults() {
+            const avgFps = fpsHistory.length > 0 
+                ? Math.round(fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length)
+                : 60;
+
+            const resultsDiv = document.getElementById('results');
+            const resultsText = document.getElementById('resultsText');
+
+            let analysis = `
+FPS Médio: ${avgFps}
+FPS Mínimo: ${minFps}
+Frames Monitorados: ${fpsHistory.length}
+
+ANÁLISE:
+${avgFps >= 55 ? '✅ Fluidez EXCELENTE - Sistema otimizado corretamente!' : ''}
+${avgFps >= 45 && avgFps < 55 ? '⚠️ Fluidez ACEITÁVEL - Considere reduzir efeitos visuais' : ''}
+${avgFps < 45 ? '❌ Fluidez RUIM - Há problemas de performance' : ''}
+
+Recomendações:
+${avgFps >= 55 ? '• Sistema está bem otimizado\n• Animações rodam suavemente\n• Sem percepção de jank' : ''}
+${avgFps >= 45 && avgFps < 55 ? '• Reduzir número de animações simultâneas\n• Verificar DevTools > Performance\n• Considerar remover efeitos visuais não essenciais' : ''}
+${avgFps < 45 ? '• Desabilitar animações pesadas\n• Reduzir qualidade de filtros\n• Otimizar JavaScript' : ''}
+            `;
+
+            resultsText.textContent = analysis.trim();
+            resultsDiv.classList.add('show');
+        }
+
+        function testAnimations() {
+            alert('Teste visual: Observe a animação abaixo sem travos ou saltos.\n\nSe parecer suave e fluida, o sistema está otimizado!');
+        }
+
+        function testForms() {
+            alert('Para testar formulários:\n1. Navegue até o Login\n2. Teste hover/focus em inputs\n3. Envie o formulário\n4. Observe as animações\n5. Abra DevTools > Performance para medir FPS');
+        }
+
+        function generateReport() {
+            const avgFps = fpsHistory.length > 0 
+                ? Math.round(fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length)
+                : 'N/A';
+
+            const report = `
+╔════════════════════════════════════════════╗
+║        RELATÓRIO DE PERFORMANCE            ║
+╚════════════════════════════════════════════╝
+
+Data: ${new Date().toLocaleString('pt-BR')}
+Navegador: ${navigator.userAgent.split(' ').slice(-3).join(' ')}
+
+📊 MÉTRICAS:
+  • FPS Médio: ${avgFps}
+  • FPS Mínimo: ${minFps}
+  • FPS Máximo: ${fpsHistory.length > 0 ? Math.max(...fpsHistory) : 'N/A'}
+  • Frames Testados: ${fpsHistory.length}
+
+✅ STATUS:
+  ${avgFps >= 55 ? '✓ EXCELENTE - Fluidez ótima' : avgFps >= 45 ? '⚠ ACEITÁVEL - Fluidez adequada' : '✗ CRÍTICO - Problemas de performance'}
+
+🎯 CONCLUSÃO:
+  Sistema está ${avgFps >= 55 ? 'PERFEITO' : avgFps >= 45 ? 'ADEQUADO' : 'COM PROBLEMAS'} para produção.
+            `;
+
+            console.log(report);
+            alert('Relatório gerado!\n\nAbra o Console (F12) para ver detalhes completos.');
+        }
+
+        // Iniciar atualização de métricas
+        setInterval(updateMetrics, 1000);
+    </script>
+</body>
+</html>

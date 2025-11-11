@@ -1,0 +1,85 @@
+<!-- 
+    NAVEGAÇÃO INTEGRADA - Coloque este código no topo de cada página HTML
+    para linkar automaticamente para a documentação de otimizações
+-->
+
+<div id="optimization-nav" style="
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 0 0 0 12px;
+    font-size: 12px;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 200px;
+">
+    <div style="font-weight: 600; margin-bottom: 8px;">🚀 Documentação</div>
+    <a href="../INDEX.html" style="
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 4px;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.color='white'; this.style.paddingLeft='8px';" 
+       onmouseout="this.style.color='rgba(255, 255, 255, 0.9)'; this.style.paddingLeft='0';">
+        📚 Centro de Docs
+    </a>
+    <a href="../performance-test.html" style="
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 4px;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.color='white'; this.style.paddingLeft='8px';" 
+       onmouseout="this.style.color='rgba(255, 255, 255, 0.9)'; this.style.paddingLeft='0';">
+        🧪 Teste FPS
+    </a>
+    <a href="../GUIA_PRATICO.md" style="
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 4px;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.color='white'; this.style.paddingLeft='8px';" 
+       onmouseout="this.style.color='rgba(255, 255, 255, 0.9)'; this.style.paddingLeft='0';" target="_blank">
+        🎯 Guia Prático
+    </a>
+    <a href="../CHECKLIST_VALIDACAO.md" style="
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 4px 0;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.color='white'; this.style.paddingLeft='8px';" 
+       onmouseout="this.style.color='rgba(255, 255, 255, 0.9)'; this.style.paddingLeft='0';" target="_blank">
+        ✅ Validação
+    </a>
+</div>
+
+<style>
+    /* Evita conflito com elementos já existentes */
+    #optimization-nav * {
+        box-sizing: border-box;
+    }
+    
+    /* Responsivo para mobile */
+    @media (max-width: 768px) {
+        #optimization-nav {
+            top: auto;
+            bottom: 0;
+            right: 0;
+            border-radius: 12px 0 0 0;
+            max-width: 100%;
+            padding: 8px 12px;
+        }
+    }
+</style>

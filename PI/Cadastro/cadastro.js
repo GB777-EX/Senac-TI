@@ -19,6 +19,36 @@ function validarPasso(numeroStep) {
         }
     }
     
+    // Validar força da senha no passo 1
+    if (numeroStep === 1) {
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        
+        // Validar se as senhas são iguais
+        if (password.value !== confirmPassword.value) {
+            alert('❌ As senhas não correspondem. Por favor, tente novamente.');
+            confirmPassword.focus();
+            return false;
+        }
+        
+        // Validar força da senha
+        if (!isStrongPassword(password.value)) {
+            alert('❌ Senha fraca. Deve conter:\n✓ Mínimo 8 caracteres\n✓ Letras maiúsculas (A-Z)\n✓ Letras minúsculas (a-z)\n✓ Números (0-9)');
+            password.focus();
+            return false;
+        }
+    }
+    
+    // Validar termos e condições na última etapa
+    if (numeroStep === 2) {
+        const termsCheckbox = document.getElementById('terms');
+        if (!termsCheckbox.checked) {
+            alert('Você deve aceitar os termos e condições para continuar.');
+            termsCheckbox.focus();
+            return false;
+        }
+    }
+    
     return true;
 }
 
@@ -52,9 +82,58 @@ nextBtn.addEventListener('click', () => {
             preencherConfirmacao();
         }
     } else if (currentStep === totalSteps) {
-        // Submeter formulário
-        console.log('Formulário enviado!');
-        alert('Cadastro realizado com sucesso!');
+        // Validar e confirmar cadastro
+        if (!validarPasso(currentStep)) {
+            return;
+        }
+        
+        // Salvar dados do cadastro
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const cpf = document.getElementById('cpf').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const birthDate = document.getElementById('birthDate').value;
+        const password = document.getElementById('password').value;
+
+        // Salvar dados do usuário no localStorage
+        const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            cpf: cpf,
+            email: email,
+            phone: phone,
+            birthDate: birthDate,
+            password: password, // ✅ ADICIONADO
+            createdAt: new Date().toISOString()
+        };
+
+        // Verificar se usuário já existe
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        const userExists = users.some(u => u.email === email);
+
+        if (userExists) {
+            alert('Este email já está cadastrado! Tente fazer login ou use outro email.');
+            return;
+        }
+
+        // Adicionar usuário à lista
+        users.push(userData);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Criar senha padrão para o novo usuário (pode ser alterada no login)
+        const userLogins = JSON.parse(localStorage.getItem('userLogins') || '{}');
+        userLogins[email] = password; // ✅ SALVA A SENHA CRIADA NO CADASTRO
+        localStorage.setItem('userLogins', JSON.stringify(userLogins));
+
+        console.log('Cadastro realizado com sucesso!');
+        console.log('Usuário cadastrado:', userData);
+        alert('✓ Cadastro realizado com sucesso!\n\nVocê será redirecionado para fazer login.');
+        
+        // Redirecionar para login após 2 segundos
+        setTimeout(() => {
+            window.location.href = 'Login/Login.html';
+        }, 2000);
     }
 });
 
@@ -92,6 +171,7 @@ function preencherConfirmacao() {
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const birthDate = document.getElementById('birthDate').value;
+    const password = document.getElementById('password').value;
 
     // Formatar data de YYYY-MM-DD para DD/MM/YYYY
     let birthDateFormatted = '-';
@@ -104,8 +184,14 @@ function preencherConfirmacao() {
     document.getElementById('confirmName').textContent = `${firstName} ${lastName}` || '-';
     document.getElementById('confirmCpf').textContent = cpf || '-';
     document.getElementById('confirmEmail').textContent = email || '-';
+    document.getElementById('confirmEmailLogin').textContent = email || '-';
     document.getElementById('confirmPhone').textContent = phone || '-';
     document.getElementById('confirmBirthDate').textContent = birthDateFormatted;
+    
+    // Preenche credenciais (senha sempre mostrada como •)
+    if (password) {
+        document.getElementById('confirmPasswordDisplay').textContent = '••••••••';
+    }
 }
 
 // Formatar CPF enquanto digita
@@ -123,14 +209,126 @@ document.getElementById('cpf').addEventListener('input', function(e) {
     e.target.value = value;
 });
 
-// Formatar Telefone enquanto digita
+// Formatar Telefone enquanto digita (até 11 dígitos)
 document.getElementById('phone').addEventListener('input', function(e) {
     let value = e.target.value.replace(/\D/g, '');
+    
+    // Limitar a 11 dígitos (celular com 9 dígitos + 2 área)
+    if (value.length > 11) {
+        value = value.substring(0, 11);
+    }
+    
+    // Formatar: (XX) 9XXXX-XXXX ou (XX) XXXX-XXXX
     if (value.length > 0) {
         value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
     }
     if (value.length > 9) {
-        value = value.substring(0, 9) + '-' + value.substring(9, 13);
+        value = value.substring(0, 9) + '-' + value.substring(9, 14);
     }
+    
     e.target.value = value;
 });
+
+// ====== VALIDAÇÃO DE SENHA ======
+
+// Função para validar força da senha
+function isStrongPassword(password) {
+    const hasLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    console.log('Validação de senha:', {
+        length: hasLength,
+        uppercase: hasUppercase,
+        lowercase: hasLowercase,
+        number: hasNumber
+    });
+
+    return hasLength && hasUppercase && hasLowercase && hasNumber;
+}
+
+// Função para calcular força da senha
+function calculatePasswordStrength(password) {
+    let strength = 0;
+
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+    if (strength <= 2) {
+        return { level: 'weak', text: '🔴 Fraca', percentage: 30 };
+    } else if (strength <= 3) {
+        return { level: 'medium', text: '🟡 Média', percentage: 60 };
+    } else {
+        return { level: 'strong', text: '🟢 Forte', percentage: 100 };
+    }
+}
+
+// Event listeners para campos de senha
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+const strengthIndicator = document.getElementById('passwordStrengthIndicator');
+const strengthFill = document.getElementById('strengthFill');
+const strengthText = document.getElementById('strengthText');
+
+if (passwordInput) {
+    passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (password.length > 0) {
+            const strength = calculatePasswordStrength(password);
+            
+            // Mostrar indicador
+            strengthIndicator.style.display = 'block';
+            
+            // Atualizar barra de força
+            strengthFill.style.width = strength.percentage + '%';
+            strengthFill.style.backgroundColor = 
+                strength.level === 'weak' ? '#e74c3c' :
+                strength.level === 'medium' ? '#f39c12' :
+                '#27ae60';
+            
+            // Atualizar texto
+            strengthText.textContent = strength.text;
+            strengthText.style.color = 
+                strength.level === 'weak' ? '#e74c3c' :
+                strength.level === 'medium' ? '#f39c12' :
+                '#27ae60';
+            
+            // Validar correspondência de senhas
+            if (confirmPassword.length > 0) {
+                if (password === confirmPassword) {
+                    confirmPasswordInput.style.borderColor = '#27ae60';
+                } else {
+                    confirmPasswordInput.style.borderColor = '#e74c3c';
+                }
+            }
+        } else {
+            strengthIndicator.style.display = 'none';
+        }
+    });
+}
+
+if (confirmPasswordInput) {
+    confirmPasswordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (confirmPassword.length > 0 && password.length > 0) {
+            if (password === confirmPassword) {
+                confirmPasswordInput.style.borderColor = '#27ae60';
+                confirmPasswordInput.style.boxShadow = '0 0 0 3px rgba(39, 174, 96, 0.1)';
+            } else {
+                confirmPasswordInput.style.borderColor = '#e74c3c';
+                confirmPasswordInput.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
+            }
+        } else if (confirmPassword.length === 0) {
+            confirmPasswordInput.style.borderColor = '';
+            confirmPasswordInput.style.boxShadow = '';
+        }
+    });
+}

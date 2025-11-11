@@ -2,7 +2,7 @@
 const emailForm = document.getElementById('emailForm');
 const codeForm = document.getElementById('codeForm');
 const newPasswordForm = document.getElementById('newPasswordForm');
-const codeDigits = document.querySelectorAll('.code-digit');
+const codeDigits = Array.from(document.querySelectorAll('.code-digit')); // Converter NodeList em Array
 const fullCodeInput = document.getElementById('fullCode');
 const resendBtn = document.getElementById('resendBtn');
 const timerText = document.getElementById('timerText');
@@ -55,25 +55,33 @@ emailForm.addEventListener('submit', (e) => {
 codeForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    // Validar que todos os campos estão preenchidos
     const enteredCode = codeDigits.map(digit => digit.value).join('');
+    
+    console.log('Código inserido:', enteredCode);
+    console.log('Código esperado:', verificationCode);
 
     if (enteredCode.length !== 6) {
         showMessage('Por favor, insira todos os 6 dígitos', 'error');
         return;
     }
 
-    if (enteredCode === verificationCode) {
-        showMessage('Código verificado com sucesso!', 'success');
-        setTimeout(() => {
-            showStep('step3');
-            clearMessage();
-        }, 1500);
-    } else {
-        showMessage('Código inválido. Tente novamente.', 'error');
+    if (enteredCode !== verificationCode) {
+        showMessage('❌ Código inválido. Tente novamente.', 'error');
         // Limpar os campos
         codeDigits.forEach(digit => digit.value = '');
         codeDigits[0].focus();
+        return;
     }
+
+    // Código correto
+    showMessage('✓ Código verificado com sucesso!', 'success');
+    console.log('Código validado! Avançando para próxima etapa...');
+    
+    setTimeout(() => {
+        showStep('step3');
+        clearMessage();
+    }, 1500);
 });
 
 // Etapa 3: Criar Nova Senha
@@ -83,30 +91,48 @@ newPasswordForm.addEventListener('submit', (e) => {
     const newPassword = newPasswordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
-    // Validações
+    console.log('Validando nova senha...');
+
+    // Validação 1: Comprimento
     if (newPassword.length < 8) {
-        showMessage('A senha deve ter pelo menos 8 caracteres', 'error');
+        showMessage('❌ A senha deve ter pelo menos 8 caracteres', 'error');
         return;
     }
 
+    // Validação 2: Confirmação de senha
     if (newPassword !== confirmPassword) {
-        showMessage('As senhas não coincidem', 'error');
+        showMessage('❌ As senhas não coincidem. Verifique a confirmação.', 'error');
         return;
     }
 
+    // Validação 3: Força da senha
     if (!hasStrongPassword(newPassword)) {
-        showMessage('A senha deve conter letras, números e caracteres especiais', 'warning');
+        showMessage('❌ A senha deve conter: maiúsculas, minúsculas e números (ex: Abc123xyz)', 'error');
         return;
     }
 
-    // Salvar a nova senha no localStorage
+    // Validação 4: Email foi definido?
+    if (!currentEmail) {
+        showMessage('❌ Erro: Email não foi definido. Por favor, comece novamente.', 'error');
+        return;
+    }
+
+    // Tudo OK! Salvar a nova senha
+    console.log('Senha validada com sucesso! Salvando para:', currentEmail);
+
+    // Salvar email e nova senha no localStorage
     const resetPasswords = JSON.parse(localStorage.getItem('resetPasswords') || '{}');
     resetPasswords[currentEmail] = newPassword;
     localStorage.setItem('resetPasswords', JSON.stringify(resetPasswords));
+    
+    // Salvar email para reset-password.js acessar (se necessário)
+    localStorage.setItem('resetUserEmail', currentEmail);
 
-    // Simular salvamento de nova senha
-    console.log('Senha redefinida para:', currentEmail);
-    showMessage('Senha redefinida com sucesso!', 'success');
+    // Log de confirmação
+    console.log('✓ Senha redefinida com sucesso para:', currentEmail);
+    console.log('✓ resetPasswords atualizado:', resetPasswords);
+
+    showMessage('✓ Senha redefinida com sucesso!', 'success');
 
     // Mostrar etapa 4 (sucesso)
     setTimeout(() => {
@@ -115,6 +141,7 @@ newPasswordForm.addEventListener('submit', (e) => {
 
     // Redirecionar após 3 segundos
     setTimeout(() => {
+        console.log('Redirecionando para Login.html...');
         window.location.href = 'Login.html';
     }, 3000);
 });
@@ -147,10 +174,19 @@ codeDigits.forEach((digit, index) => {
     });
 });
 
-// Atualizar código completo
+// Atualizar código completo (sincronizar com o input hidden)
 function updateFullCode() {
-    const fullCode = codeDigits.map(digit => digit.value).join('');
-    fullCodeInput.value = fullCode;
+    if (!codeDigits || codeDigits.length === 0) {
+        console.warn('codeDigits não encontrado');
+        return;
+    }
+    
+    const fullCode = codeDigits.map(digit => digit.value || '').join('');
+    if (fullCodeInput) {
+        fullCodeInput.value = fullCode;
+    }
+    
+    console.log('Código atualizado:', fullCode);
 }
 
 // Timer de reenvio
@@ -203,48 +239,109 @@ function togglePasswordVisibility(input, button) {
     button.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
 }
 
-// Análise de força da senha
+// Análise de força da senha em tempo real
 newPasswordInput.addEventListener('input', () => {
     const password = newPasswordInput.value;
     const strength = calculatePasswordStrength(password);
 
     if (password.length > 0) {
-        document.getElementById('strengthBar').classList.add('show');
-        document.getElementById('strengthText').classList.add('show');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+        
+        if (strengthBar) strengthBar.classList.add('show');
+        if (strengthText) strengthText.classList.add('show');
 
-        strengthBar.className = 'strength-bar ' + strength.level;
-        strengthText.textContent = strength.text;
-        strengthText.className = 'strength-text show ' + strength.level;
+        const fillBar = document.getElementById('strengthFill');
+        if (fillBar) {
+            fillBar.className = 'strength-bar ' + strength.level;
+        }
+        
+        if (strengthText) {
+            strengthText.textContent = strength.text;
+            strengthText.className = 'strength-text show ' + strength.level;
+        }
+        
+        console.log('Força da senha:', strength.level, '-', strength.text);
     } else {
-        document.getElementById('strengthBar').classList.remove('show');
-        document.getElementById('strengthText').classList.remove('show');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+        
+        if (strengthBar) strengthBar.classList.remove('show');
+        if (strengthText) strengthText.classList.remove('show');
     }
 });
 
-// Calcular força da senha
+// Calcular força da senha com feedback detalhado
 function calculatePasswordStrength(password) {
     let strength = 0;
+    let requirements = [];
 
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^a-zA-Z0-9]/.test(password)) strength++;
+    if (password.length >= 8) {
+        strength++;
+        requirements.push('✓ 8+ caracteres');
+    } else {
+        requirements.push('✗ Menos de 8 caracteres');
+    }
+
+    if (/[a-z]/.test(password)) {
+        strength++;
+        requirements.push('✓ Minúsculas');
+    } else {
+        requirements.push('✗ Sem minúsculas');
+    }
+
+    if (/[A-Z]/.test(password)) {
+        strength++;
+        requirements.push('✓ Maiúsculas');
+    } else {
+        requirements.push('✗ Sem maiúsculas');
+    }
+
+    if (/[0-9]/.test(password)) {
+        strength++;
+        requirements.push('✓ Números');
+    } else {
+        requirements.push('✗ Sem números');
+    }
+
+    if (/[^a-zA-Z0-9]/.test(password)) {
+        strength++;
+        requirements.push('✓ Caracteres especiais');
+    }
 
     if (strength <= 2) {
-        return { level: 'weak', text: 'Senha fraca' };
+        return { 
+            level: 'weak', 
+            text: '🔴 Senha Fraca' 
+        };
     } else if (strength <= 3) {
-        return { level: 'medium', text: 'Senha média' };
+        return { 
+            level: 'medium', 
+            text: '🟡 Senha Média' 
+        };
     } else {
-        return { level: 'strong', text: 'Senha forte' };
+        return { 
+            level: 'strong', 
+            text: '🟢 Senha Forte' 
+        };
     }
 }
 
-// Validar se a senha é forte
+// Validar se a senha atende aos requisitos mínimos
 function hasStrongPassword(password) {
-    return /[a-z]/.test(password) &&
-           /[A-Z]/.test(password) &&
-           /[0-9]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasLength = password.length >= 8;
+
+    console.log('Validação de senha:', {
+        length: hasLength,
+        lowercase: hasLowercase,
+        uppercase: hasUppercase,
+        number: hasNumber
+    });
+
+    return hasLowercase && hasUppercase && hasNumber && hasLength;
 }
 
 // Validar email
@@ -272,24 +369,58 @@ function resetForm() {
     clearMessage();
 }
 
-// Mostrar/ocultar mensagens
+// Mostrar/ocultar mensagens com melhor controle
 function showMessage(message, type) {
+    // Remover mensagem anterior se existir
     const existingMessage = document.querySelector('.message');
     if (existingMessage) {
         existingMessage.remove();
     }
 
+    // Criar nova mensagem
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type} show`;
     messageDiv.textContent = message;
+    messageDiv.role = 'alert'; // Accessibility
+    messageDiv.style.cssText = `
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        animation: slideDown 0.3s ease-in-out;
+        z-index: 1000;
+    `;
+
+    // Cores diferentes para cada tipo
+    if (type === 'error') {
+        messageDiv.style.backgroundColor = '#fee';
+        messageDiv.style.color = '#c33';
+        messageDiv.style.borderLeft = '4px solid #c33';
+    } else if (type === 'success') {
+        messageDiv.style.backgroundColor = '#efe';
+        messageDiv.style.color = '#3c3';
+        messageDiv.style.borderLeft = '4px solid #3c3';
+    }
 
     const container = document.querySelector('.forgot-container');
-    container.insertBefore(messageDiv, container.firstChild);
+    if (container) {
+        container.insertBefore(messageDiv, container.firstChild);
+        console.log('Mensagem exibida:', message);
+    } else {
+        console.error('Container .forgot-container não encontrado');
+    }
 
+    // Remover mensagem após 5 segundos
     setTimeout(() => {
-        messageDiv.classList.remove('show');
-        setTimeout(() => messageDiv.remove(), 300);
-    }, 4000);
+        if (messageDiv && messageDiv.parentNode) {
+            messageDiv.classList.remove('show');
+            setTimeout(() => {
+                if (messageDiv && messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
 }
 
 // Limpar mensagens
@@ -308,4 +439,14 @@ document.addEventListener('keypress', (e) => {
             activeForm.dispatchEvent(new Event('submit'));
         }
     }
+});
+
+// Inicializar quando o documento carrega
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('=== FORGOT-PASSWORD.JS INICIALIZADO ===');
+    console.log('Email Form:', emailForm ? '✓ Encontrado' : '✗ NÃO ENCONTRADO');
+    console.log('Code Form:', codeForm ? '✓ Encontrado' : '✗ NÃO ENCONTRADO');
+    console.log('Password Form:', newPasswordForm ? '✓ Encontrado' : '✗ NÃO ENCONTRADO');
+    console.log('Code Digits:', codeDigits.length > 0 ? `✓ Encontrados ${codeDigits.length} campos` : '✗ NÃO ENCONTRADOS');
+    console.log('=====================================');
 });

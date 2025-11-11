@@ -269,6 +269,39 @@ body {
     width: 100%;
 }
 
+/* Toggle de Visibilidade de Senha */
+.password-input-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    color: #666;
+    transition: all 0.2s ease;
+    z-index: 10;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password:hover {
+    color: #333;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.toggle-password:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 /* Botão de Login */
 .btn-login {
     width: 100%;
@@ -430,4 +463,259 @@ body {
     .header {
         margin-bottom: 25px;
     }
+}
+
+/* ========== EFEITOS AVANÇADOS DE DESIGN ========== */
+
+/* Efeito de luz ambiente animada */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+    animation: ambientLighting 8s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes ambientLighting {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-50px, -50px);
+    }
+}
+
+/* Efeitos de entrada suave para inputs */
+input, button {
+    transition: all 0.2s ease-out;
+}
+
+/* Efeito glow nos inputs ao focar */
+input:focus {
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.3),
+        inset 0 0 10px rgba(102, 126, 234, 0.03) !important;
+    transform: translateY(-1px);
+}
+
+/* Efeito de partículas flutuantes no fundo */
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+        opacity: 0.5;
+    }
+    25% {
+        transform: translateY(-20px) translateX(20px) scale(1.1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(-40px) translateX(-20px) scale(0.9);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translateY(-20px) translateX(-30px) scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+/* Botão com efeito de onda ao clicar */
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    pointer-events: none;
+}
+
+button:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Efeito de shimmer (brilho) nos botões */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+button.btn-primary:hover {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 
+        0 8px 25px rgba(102, 126, 234, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Efeito de foco suave no container */
+.login-container {
+    position: relative;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    border-radius: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.login-container:hover::before {
+    opacity: 1;
+}
+
+/* Efeito de input com borda gradiente animada */
+.form-group {
+    position: relative;
+}
+
+.form-group input {
+    position: relative;
+    z-index: 1;
+}
+
+.form-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 100%;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.form-group input:focus ~ &::after,
+.form-group input:focus::after,
+input:focus + .form-group::after {
+    transform: scaleX(1);
+    animation: gradientShift 1s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Efeito de blur background ao exibir modal */
+.welcome-message {
+    filter: drop-shadow(0 10px 30px rgba(102, 126, 234, 0.4));
+}
+
+/* Efeito de micro-animações no texto */
+.login-container h1, .login-container h2, .login-container h3 {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito de brilho nas labels ao focar input */
+label {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+input:focus ~ label,
+.form-group input:focus + label {
+    color: #667eea;
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    transform: translateX(5px);
+}
+
+/* Animação de ondas no background */
+@keyframes wave {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background-size: 200% 200%;
+    animation: backgroundShift 8s ease infinite, wave 15s ease infinite;
+}
+
+/* Efeito de partículas ao enviar formulário */
+.form-submit-effect {
+    position: relative;
+}
+
+/* Efeito de pulse nos botões de ação */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(102, 126, 234, 0);
+    }
+}
+
+button.btn-primary:focus {
+    animation: pulse 1.5s ease-out;
+}
+
+/* Efeito de gradiente dinâmico no hover */
+.login-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 255, 0.9) 100%);
+    background-attachment: fixed;
+}
+
+.login-container:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 255, 0.95) 100%);
+}
+
+/* Efeito de escala suave ao interagir */
+input:focus {
+    transform: scale(1.01);
+}
+
+button:hover {
+    transform: scale(1.02) translateY(-2px);
+}
+
+/* Efeito glassmorphism sofisticado */
+.login-container {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.login-container:hover {
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 245, 255, 1) 100%);
 }
