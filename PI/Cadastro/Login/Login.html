@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Simples</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="8" width="24" height="24" rx="4" fill="#7a8ba8" opacity="0.6"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Título e Subtítulo -->
+        <div class="header">
+            <h1>Login</h1>
+            <p class="subtitle">Dados de login:</p>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form class="login-form" id="loginForm">
+            <!-- Campo de Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+            </div>
+
+            <!-- Campo de Senha -->
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <!-- Checkbox e Links -->
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    Lembrar-me
+                </label>
+                <a href="forgot-password.html" class="forgot-password">Esqueci a senha</a>
+            </div>
+
+            <!-- Botão de Login -->
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+
+        <!-- Link de Cadastro -->
+        <div class="signup-link">
+            Não tem conta? <a href="../cadastro.html">Cadastre-se</a>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
