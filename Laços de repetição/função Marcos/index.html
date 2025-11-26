@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumprimento por Hora do Dia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+
+        #corpo {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #hora {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        #imagem {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            aspect-ratio: 4/3;
+        }
+
+        /* Responsivo para dispositivos menores */
+        @media (max-width: 600px) {
+            #corpo {
+                padding: 30px 15px;
+                border-radius: 15px;
+            }
+
+            #hora {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            #imagem {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="corpo">
+        <h1 id="hora"></h1>
+        <img id="imagem" src="imagens/Madrugada.webp" alt="Imagem do período do dia">
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        window.onload = function() {
+            carregar();
+        };
+    </script>
+</body>
+</html>
