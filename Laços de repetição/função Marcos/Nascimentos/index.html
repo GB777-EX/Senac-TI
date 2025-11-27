@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificador de Idade</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+ <body>
+  <!-- ADESIVOS SIMPLIFICADOS: SÓ REX E LOGO -->
+  <div class="stickers">
+    <!-- Rex Colt na esquerda -->
+    <img src="../imagens/logo-Blood dragon.png" alt="Rex Power Colt" class="sticker-rex-main">
+    
+    <!-- Logo Blood Dragon na direita -->
+    <img src="../imagens/Logo-blood.png" alt="Blood Dragon Logo" class="sticker-logo-main">
+  </div>
+
+  <section>
+
+    <h1>Verificador de Idade</h1>
+
+    <p>
+      Ano de nascimento:
+      <input type="number" id="ano" min="1900" max="2025"
+             placeholder="De 1900 a 2025">
+    </p>
+
+    <p>Sexo:
+      <label>
+        <input type="radio" name="sexo" value="M" checked>
+        Masculino
+      </label>
+      <label>
+        <input type="radio" name="sexo" value="F">
+        Feminino
+      </label>
+    </p>
+
+    <p>
+      <input type="button" value="Verificar" onclick="verificar()">
+    </p>
+
+    <div id="resultado">
+      <p id="texto">Preencha os dados acima para ver o resultado.</p>
+      <img id="imagem" src="" alt="Foto gerada" style="display:none;">
+    </div>
+  </section>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+/* ========== IMPORTANDO FONTE RETRO ========== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* ========== RESET E FUNDO ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(180deg, #0a0015 0%, #1a0033 50%, #0d0020 100%);
+  color: #00ffff; /* ciano neon */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========== EFEITO DE SCANLINES (VHS) ========== */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ========== GRID DE FUNDO ESTILO TRON ========== */
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========== CONTAINER PRINCIPAL ========== */
+section {
+  position: relative;
+  z-index: 10;
+  background: rgba(10, 0, 30, 0.85);
+  border: 3px solid #ff00ff; /* magenta neon */
+  border-radius: 15px;
+  padding: 40px 50px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 
+    0 0 20px #ff00ff,
+    0 0 40px #ff00ff,
+    inset 0 0 30px rgba(255, 0, 255, 0.2);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px #ff00ff,
+      0 0 40px #ff00ff,
+      inset 0 0 30px rgba(255, 0, 255, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px #ff00ff,
+      0 0 60px #ff00ff,
+      inset 0 0 40px rgba(255, 0, 255, 0.3);
+  }
+}
+
+/* ========== TÍTULO ========== */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ff00ff; /* magenta */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+  text-shadow: 
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 30px #ff00ff,
+    0 0 40px #ff00ff;
+  animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow: 
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff,
+      0 0 40px #ff00ff;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+/* ========== PARÁGRAFOS ========== */
+p {
+  font-size: 1rem;
+  color: #00ffff; /* ciano */
+  margin-bottom: 20px;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+/* ========== INPUTS ========== */
+input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  color: #00ffff;
+  outline: none;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+input[type="number"]:focus {
+  border-color: #ff00ff;
+  box-shadow: 
+    0 0 15px #ff00ff,
+    inset 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+input[type="number"]::placeholder {
+  color: rgba(0, 255, 255, 0.5);
+}
+
+/* ========== RADIO BUTTONS ========== */
+label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #00ffff;
+  transition: color 0.3s ease;
+}
+
+label:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+input[type="radio"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00ffff;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="radio"]:checked {
+  border-color: #ff00ff;
+  box-shadow: 
+    0 0 10px #ff00ff,
+    inset 0 0 10px #ff00ff;
+}
+
+input[type="radio"]:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #ff00ff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff00ff;
+}
+
+/* ========== BOTÃO VERIFICAR ========== */
+input[type="button"] {
+  width: 100%;
+  padding: 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff00ff 0%, #ff0080 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 20px #ff00ff,
+    0 5px 15px rgba(255, 0, 255, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+input[type="button"]:hover {
+  background: linear-gradient(135deg, #ff0080 0%, #ff00ff 100%);
+  box-shadow: 
+    0 0 30px #ff00ff,
+    0 8px 20px rgba(255, 0, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+input[type="button"]:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 15px #ff00ff,
+    0 3px 10px rgba(255, 0, 255, 0.4);
+}
+
+input[type="button"]::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* ========== ÁREA DE RESULTADO ========== */
+#resultado {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#texto {
+  font-size: 1.1rem;
+  color: #ff00ff;
+  font-weight: 700;
+  text-shadow: 
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff;
+  margin-bottom: 20px;
+}
+
+#imagem {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  border: 3px solid #00ffff;
+  border-radius: 10px;
+  box-shadow: 
+    0 0 20px #00ffff,
+    0 0 40px rgba(0, 255, 255, 0.5);
+  margin-top: 15px;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 600px) {
+  section {
+    padding: 30px 25px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+  
+  p, label {
+    font-size: 0.9rem;
+  }
+  
+  input[type="button"] {
+    font-size: 1rem;
+  }
+}
+/* ========== STICKERS SIMPLIFICADOS: REX E LOGO ========== */
+
+.stickers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+/* Estilo base pra remover fundo transparente */
+.stickers img {
+  position: absolute;
+  opacity: 0.9;
+  transition: all 0.4s ease;
+  /* Remove o fundo xadrez/transparente */
+  background: transparent;
+  mix-blend-mode: normal;
+}
+
+/* Efeito hover sutil */
+.stickers img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ========== REX POWER COLT (ESQUERDA, GRANDE E CENTRALIZADO) ========== */
+
+
+             .sticker-rex-main {
+  /* todo o resto que já tem... */
+    top: 50%;
+  left: 5%;
+  transform: translateY(-50%); /* Centraliza verticalmente */
+  width: 320px; /* BEM maior */
+  height: auto;
+  filter: 
+    drop-shadow(0 0 25px rgba(255, 0, 255, 0.8))
+    drop-shadow(0 0 50px rgba(0, 255, 255, 0.6))
+    drop-shadow(0 0 75px rgba(255, 0, 255, 0.4));
+  animation: rex-float 6s ease-in-out infinite, 
+             rex-glow 3s ease-in-out infinite;
+  /* FORÇA remoção de fundo claro/cinza */
+  background-color: transparent !important;
+  backdrop-filter: none;
+  isolation: isolate;
+  filter: 
+    drop-shadow(0 0 25px rgba(255, 0, 255, 0.8))
+    drop-shadow(0 0 50px rgba(0, 255, 255, 0.6))
+    brightness(1.1)
+    contrast(1.2);
+}
+
+
+
+/* ========== LOGO BLOOD DRAGON (DIREITA, GRANDE E CENTRALIZADO) ========== */
+.sticker-logo-main {
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%); /* Centraliza verticalmente */
+  width: 300px; /* BEM maior */
+  height: auto;
+  filter: 
+    drop-shadow(0 0 30px rgba(255, 0, 255, 1))
+    drop-shadow(0 0 60px rgba(0, 255, 255, 0.8))
+    drop-shadow(0 0 90px rgba(255, 0, 255, 0.5));
+  animation: logo-float 7s ease-in-out infinite reverse,
+             logo-flicker 2.5s ease-in-out infinite;
+}
+
+/* ========== ANIMAÇÕES ========== */
+
+/* Flutuação do Rex */
+@keyframes rex-float {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-52%) translateX(5px);
+  }
+}
+
+/* Brilho pulsante do Rex */
+@keyframes rex-glow {
+  0%, 100% {
+    filter: 
+      drop-shadow(0 0 25px rgba(255, 0, 255, 0.8))
+      drop-shadow(0 0 50px rgba(0, 255, 255, 0.6))
+      drop-shadow(0 0 75px rgba(255, 0, 255, 0.4));
+  }
+  50% {
+    filter: 
+      drop-shadow(0 0 35px rgba(255, 0, 255, 1))
+      drop-shadow(0 0 70px rgba(0, 255, 255, 0.9))
+      drop-shadow(0 0 100px rgba(255, 0, 255, 0.6));
+  }
+}
+
+/* Flutuação da Logo */
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-48%) translateX(-8px);
+  }
+}
+
+/* Efeito piscar néon na logo */
+@keyframes logo-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 0.9;
+    filter: 
+      drop-shadow(0 0 30px rgba(255, 0, 255, 1))
+      drop-shadow(0 0 60px rgba(0, 255, 255, 0.8))
+      drop-shadow(0 0 90px rgba(255, 0, 255, 0.5));
+  }
+  20%, 24%, 55% {
+    opacity: 0.5;
+    filter: 
+      drop-shadow(0 0 15px rgba(255, 0, 255, 0.6))
+      drop-shadow(0 0 30px rgba(0, 255, 255, 0.4));
+  }
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1024px) {
+  .sticker-rex-main {
+    width: 240px;
+    left: 3%;
+  }
+  
+  .sticker-logo-main {
+    width: 220px;
+    right: 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticker-rex-main {
+    width: 180px;
+    left: 2%;
+    top: 10%; /* Move pra cima em mobile */
+    transform: translateY(0);
+  }
+  
+  .sticker-logo-main {
+    width: 160px;
+    right: 2%;
+    bottom: 10%; /* Move pra baixo em mobile */
+    top: auto;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .sticker-rex-main {
+    width: 120px;
+  }
+  
+  .sticker-logo-main {
+    width: 110px;
+  }
+}
+
